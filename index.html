@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pausy - Una pausa para el scroll</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pausySky: '#E4F4FC',
+            pausyWhite: '#F7FBFD',
+            pausyCard: '#FAF0E6',
+            pausyAccent: '#4A3B32',
+            pausyMuted: '#6B5B52',
+            pausyAccentHover: '#382C25'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          boxShadow: {
+            'pausy': '0 10px 30px -5px rgba(74, 59, 50, 0.08)',
+            'pausy-btn': '0 4px 18px rgba(74, 59, 50, 0.25)',
+            'pausy-btn-hover': '0 6px 22px rgba(74, 59, 50, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CSS Standard Reset & Base Variables */
+    :root {
+      --bg-cielo: #E4F4FC;
+      --bg-blanco: #F7FBFD;
+      --card-bg: #FAF0E6;
+      --accent-color: #4A3B32;
+      --text-muted: #6B5B52;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top center, var(--bg-cielo) 0%, var(--bg-blanco) 80%);
+      background-attachment: fixed;
+      color: var(--accent-color);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Custom Card Hover & Interactive Effects */
+    .section-card {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 4px 20px rgba(74, 59, 50, 0.04);
+      border: 1px solid rgba(74, 59, 50, 0.05);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(74, 59, 50, 0.08);
+    }
+
+    /* Primary Pill Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent-color);
+      color: #FFFFFF;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(74, 59, 50, 0.2);
+      width: 100%;
+      max-width: 380px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .cta-button:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(74, 59, 50, 0.3);
+      background-color: #3B2E27;
+    }
+
+    .cta-button:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 2px 8px rgba(74, 59, 50, 0.2);
+    }
+
+    /* Quote Box Custom Styling */
+    .quote-box {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--accent-color);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 18px;
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.4);
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    /* Breathing Circle Animation */
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+    .breathe-animation {
+      animation: breathe 5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="selection:bg-amber-200 selection:text-pausyAccent">
+
+  <!-- MAIN CONTAINER -->
+  <main class="w-full max-w-[680px] mx-auto px-5 py-6 md:py-10 flex flex-col gap-8 md:gap-10">
+
+    <!-- HEADER & LOGO SECTION -->
+    <header class="text-center flex flex-col items-center">
+      
+      <!-- Logo Banner with vector illustration matching your sloth image -->
+      <div class="top-logo-banner mb-4 w-full flex justify-center">
+        <div class="w-full max-w-[220px] sm:max-w-[260px] mx-auto hover:scale-105 transition-transform duration-300">
+          <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-md">
+            <!-- LOGO BACKGROUND GLOW -->
+            <circle cx="250" cy="200" r="190" fill="#FAF0E6" opacity="0.6" />
+
+            <g id="sloth-logo">
+              <!-- LOG BRANCH RIGHT -->
+              <path d="M 370 230 Q 410 200 435 180" stroke="#7A4725" stroke-width="14" stroke-linecap="round" fill="none"/>
+              <path d="M 370 230 Q 410 200 435 180" stroke="#4A2612" stroke-width="14" stroke-linecap="round" stroke-dasharray="1 1" fill="none"/>
+
+              <!-- LEAF 1 (Left leaf on branch) -->
+              <path d="M 430 180 C 405 145 440 135 455 155 C 460 170 440 182 430 180 Z" fill="#29B446" stroke="#1B6D2A" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M 432 178 Q 442 162 452 154" stroke="#1B6D2A" stroke-width="3" fill="none"/>
+
+              <!-- LEAF 2 (Right leaf on branch) -->
+              <path d="M 434 185 C 460 175 485 200 465 218 C 445 220 435 198 434 185 Z" fill="#24A03E" stroke="#1B6D2A" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M 436 187 Q 452 200 463 212" stroke="#1B6D2A" stroke-width="3" fill="none"/>
+
+              <!-- WOODEN LOG -->
+              <rect x="50" y="215" width="365" height="85" rx="18" fill="#8E5630" stroke="#4A2612" stroke-width="7"/>
+              <!-- LOG WOOD GRAIN & HIGHLIGHTS -->
+              <path d="M 68 230 H 400" stroke="#A76C41" stroke-width="7" stroke-linecap="round"/>
+              <path d="M 70 250 Q 220 245 400 252" stroke="#6E4020" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+              <path d="M 70 270 Q 250 264 400 272" stroke="#5B3319" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+              <!-- SLOTH HIND LEG -->
+              <path d="M 320 200 Q 365 205 370 260 C 372 285 342 290 335 265 Q 328 230 320 200 Z" fill="#D6A478" stroke="#4A2612" stroke-width="6" stroke-linejoin="round"/>
+              <!-- HIND CLAWS -->
+              <path d="M 342 278 L 340 294 M 351 278 L 351 296 M 360 276 L 361 294" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M 342 278 L 340 294 M 351 278 L 351 296 M 360 276 L 361 294" stroke="#4A2612" stroke-width="1.8" stroke-linecap="round"/>
+
+              <!-- SLOTH BODY BACK -->
+              <path d="M 200 135 C 260 100 370 120 375 215 C 335 228 270 220 200 205 Z" fill="#D6A478" stroke="#4A2612" stroke-width="7" stroke-linejoin="round"/>
+
+              <!-- SLOTH HEAD & HAIR TUFT -->
+              <path d="M 125 145 C 115 135 110 125 112 110 C 122 108 132 115 138 122 C 148 95 240 85 275 145 C 285 190 240 225 165 225 C 130 225 115 185 125 145 Z" fill="#D6A478" stroke="#4A2612" stroke-width="7" stroke-linejoin="round"/>
+
+              <!-- CREAM FACE MASK -->
+              <path d="M 130 155 C 130 118 235 118 250 155 C 255 190 215 218 165 218 C 135 218 130 185 130 155 Z" fill="#FFF4E6" stroke="#4A2612" stroke-width="4.5" stroke-linejoin="round"/>
+
+              <!-- BROWN EYE PATCHES -->
+              <path d="M 140 148 C 150 140 180 144 185 170 C 160 178 142 170 140 148 Z" fill="#9E6743" stroke="#4A2612" stroke-width="3"/>
+              <path d="M 202 145 C 230 145 240 155 238 175 C 210 180 198 165 202 145 Z" fill="#9E6743" stroke="#4A2612" stroke-width="3"/>
+
+              <!-- SLEEPING HAPPY EYES (◡ ◡) -->
+              <path d="M 150 158 Q 162 169 174 158" stroke="#4A2612" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+              <path d="M 208 158 Q 220 169 232 158" stroke="#4A2612" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+              <!-- NOSE & SMILE -->
+              <ellipse cx="190" cy="172" rx="7" ry="5" fill="#4A2612"/>
+              <path d="M 185 182 Q 190 188 195 182" stroke="#4A2612" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+              <!-- FRONT ARM HANGING DOWN -->
+              <path d="M 230 195 C 250 215 255 240 250 310 C 248 328 220 328 218 310 C 218 245 222 215 224 195 Z" fill="#D6A478" stroke="#4A2612" stroke-width="6" stroke-linejoin="round"/>
+
+              <!-- FRONT CLAWS -->
+              <path d="M 224 310 L 222 330 M 234 312 L 234 333 M 244 310 L 246 329" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M 224 310 L 222 330 M 234 312 L 234 333 M 244 310 L 246 329" stroke="#4A2612" stroke-width="1.8" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <!-- Local image fallback option -->
+        <img 
+          src="lindo-perezoso-durmiendo-rama-arbol-dibujos-animados-icono-vectorial-ilustracion-naturaleza-animal-aislado-plano_138676-14537.avif" 
+          onerror="this.style.display='none'" 
+          alt="Logo de Pausy" 
+          class="hidden"
+        />
+      </div>
+
+      <!-- Brand Subtitle & Hero Title -->
+      <div class="brand-name text-xs sm:text-sm font-extrabold tracking-[3px] text-pausyMuted uppercase mb-2 opacity-90">
+        Pausy
+      </div>
+      
+      <h1 class="hero-title text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-pausyAccent tracking-tight leading-tight mb-7">
+        Una pausa para el scroll
+      </h1>
+      
+      <!-- Primary CTA Button -->
+      <div class="btn-container w-full flex justify-center">
+        <a href="https://pausy.lovable.app/"
+           class="cta-button group"
+           target="_blank"
+           rel="noopener noreferrer">
+           <span>Probá Pausy gratis</span>
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+           </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- SECTION 1: ¿QUÉ ES PAUSY? -->
+    <section class="section-card">
+      <h2 class="section-title text-xl sm:text-2xl font-bold text-pausyAccent mb-4 flex items-center gap-2">
+        <span>🦥</span> ¿Qué es Pausy?
+      </h2>
+      <p class="why-text text-base sm:text-lg text-pausyMuted leading-relaxed">
+        Pausy es una app que te acompaña a decidir qué hacer con tu tiempo y,
+        cuando caés en el scroll, te ofrece una pausa y una alternativa para
+        retomar tu día.
+      </p>
+    </section>
+
+    <!-- SECTION 2: TE ENTENDEMOS -->
+    <section class="section-card">
+      <h2 class="section-title text-xl sm:text-2xl font-bold text-pausyAccent mb-4 flex items-center gap-2">
+        <span>📱</span> Te entendemos...
+      </h2>
+      
+      <div class="quote-box">
+        "Uso mucho el celular y dejo actividades importantes sin hacer."
+      </div>
+      
+      <p class="problem-desc text-pausyMuted leading-relaxed text-base">
+        Tenés mil cosas por hacer y querés enfocarte, pero sin desconectarte del todo del mundo.
+        Agarrás el celular, empezás a deslizar y deslizar, y cuando te querés dar cuenta,
+        el tiempo se fue volando. Pero te entendemos: sentir frustración al ver pasar las horas
+        es más común de lo que pensás.
+      </p>
+    </section>
+
+    <!-- SECTION 3: ¿CÓMO FUNCIONA? -->
+    <section class="section-card">
+      <h2 class="section-title text-xl sm:text-2xl font-bold text-pausyAccent mb-6 flex items-center gap-2">
+        <span>🤔</span> ¿Cómo funciona?
+      </h2>
+      
+      <div class="steps-grid flex flex-col gap-5">
+        
+        <!-- Step 1 -->
+        <div class="step-item flex gap-4 bg-white/50 hover:bg-white/80 p-4 sm:p-5 rounded-2xl border border-amber-900/5 transition-colors duration-200 items-start">
+          <div class="step-number bg-pausyAccent text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 shadow-sm">
+            1
+          </div>
+          <div class="step-content">
+            <h3 class="font-bold text-base sm:text-lg text-pausyAccent mb-1">
+              🎯 Pequeñas metas, grandes cambios
+            </h3>
+            <p class="text-sm sm:text-base text-pausyMuted leading-relaxed">
+              Completá pequeñas metas reemplazando el tiempo que perdés en el celular por actividades que aportan a tus objetivos y tu futuro.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-item flex gap-4 bg-white/50 hover:bg-white/80 p-4 sm:p-5 rounded-2xl border border-amber-900/5 transition-colors duration-200 items-start">
+          <div class="step-number bg-pausyAccent text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 shadow-sm">
+            2
+          </div>
+          <div class="step-content">
+            <h3 class="font-bold text-base sm:text-lg text-pausyAccent mb-1">
+              ⏳ Definí tu tiempo sin culpa
+            </h3>
+            <p class="text-sm sm:text-base text-pausyMuted leading-relaxed">
+              Usá el celular para comunicarte o estudiar. Fijá límites amables y sin bloqueos agresivos que te estresen.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-item flex gap-4 bg-white/50 hover:bg-white/80 p-4 sm:p-5 rounded-2xl border border-amber-900/5 transition-colors duration-200 items-start">
+          <div class="step-number bg-pausyAccent text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 shadow-sm">
+            3
+          </div>
+          <div class="step-content">
+            <h3 class="font-bold text-base sm:text-lg text-pausyAccent mb-1">
+              ❤️ Recuperá tus horas de vida
+            </h3>
+            <p class="text-sm sm:text-base text-pausyMuted leading-relaxed">
+              Volvé a enfocar parte de tu día en lo importante, reduciendo la frustración y disfrutando de más tiempo libre real.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: ¿POR QUÉ EXISTIMOS? -->
+    <section class="section-card">
+      <h2 class="section-title text-xl sm:text-2xl font-bold text-pausyAccent mb-4 flex items-center gap-2">
+        <span>🤎</span> ¿Por qué existimos?
+      </h2>
+      <p class="why-text text-base sm:text-lg text-pausyMuted leading-relaxed">
+        Existimos para ayudar tanto a jóvenes como a adultos a transformar su relación con la adicción al celular.
+        Creemos en una tecnología que acompañe tu día a día sin robarte el tiempo, permitiéndote concentrarte en tus metas cotidianas con calma y equilibrio.
+      </p>
+    </section>
+
+    <!-- FOOTER CTA & COPYRIGHT -->
+    <footer class="footer-cta text-center py-6 flex flex-col items-center">
+      <div class="btn-container w-full flex justify-center mb-4">
+        <a href="mailto:pausy.arg@gmail.com?subject=Consulta%20sobre%20Pausy&body=Hola%20equipo%20de%20Pausy,"
+           class="cta-button group">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+           </svg>
+           <span>Comunicate con nosotros</span>
+        </a>
+      </div>
+      
+      <p class="footer-note text-xs text-pausyMuted tracking-wide">
+        Pausy © — Una pausa para el scroll
+      </p>
+    </footer>
+
+  </main>
+
+</body>
+</html>
